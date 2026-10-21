@@ -84,12 +84,12 @@ Open the device and look for an **8-pin chip** (SOIC-8 / WSON-8) marked `W25Q…
 ### 3. Wire it (SOIC-8 SPI flash)
 
 ```
-        ┌──────U──────┐
-   CS  1│             │8  VCC (3.3 V)
-   DO  2│  25xx SPI   │7  HOLD  (tie to VCC)
-   WP  3│    FLASH    │6  CLK
-  GND  4│             │5  DI
-        └─────────────┘
+        +-------------+
+   CS  1|             |8  VCC (3.3 V)
+   DO  2|  25xx SPI   |7  HOLD (tie to VCC)
+   WP  3|    FLASH    |6  CLK
+  GND  4|             |5  DI
+        +-------------+
 ```
 
 | Chip pin | Signal | CH341A (25xx socket / clip) |
@@ -184,17 +184,6 @@ Open the folder, let Gradle sync, run on a phone with USB host. `minSdk 26` &mid
 ### Signed release
 `app/build.gradle` signs the release build when `ANDROPROGX_KEYSTORE`, `ANDROPROGX_KEYSTORE_PASSWORD`, `ANDROPROGX_KEY_ALIAS` and `ANDROPROGX_KEY_PASSWORD` are set (the notebook sets them). Without them `assembleRelease` yields an unsigned APK that Android refuses to install.
 
-## Publish to GitHub from Termux
-
-[`tools/github_sync.py`](tools/github_sync.py) pushes, pulls and publishes releases (APK attached) with only Python + git:
-
-```bash
-pkg install git python
-python github_sync.py init                 # create repo + first push
-python github_sync.py push -m "message"    # commit and push
-python github_sync.py pull                 # get latest changes
-python github_sync.py release --tag v1.0   # GitHub Release with the APK
-```
 
 ## Project structure
 
