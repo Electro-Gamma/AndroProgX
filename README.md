@@ -20,7 +20,7 @@ Turn your phone into a pocket **USB EEPROM / SPI flash programmer** &mdash; no P
 ![Chip](https://img.shields.io/badge/programmer-CH341A-orange)
 ![Version](https://img.shields.io/badge/version-1.0-blue)
 
-**Author: Yassine Moukil &mdash; ELECTRO-GAMMA**
+**Author: ELECTRO-GAMMA**
 
 </div>
 
