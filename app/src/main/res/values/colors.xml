@@ -1,0 +1,101 @@
+<!--
+  Copyright (c) 2026 Yassine Moukil ELECTRO-GAMMA. All rights reserved.
+  Author: Yassine Moukil ELECTRO-GAMMA
+  Third-party / ported code attributions: see NOTICE.md
+-->
+<resources>
+    <!-- ====================================================================
+         "CH341A Programmer" design system - LIGHT mode.
+         Token names are shared with values-night/colors.xml on purpose: every
+         layout references these tokens (never a literal color), so the exact
+         same XML renders correctly in both light and dark automatically via
+         Android's DayNight resource switching. See values-night/colors.xml
+         for the dark counterpart of each token.
+         ==================================================================== -->
+
+    <!-- App bar / status bar -->
+    <color name="bridge_primary">#1565C0</color>
+    <color name="bridge_primary_dark">#0D47A1</color>
+
+    <!-- Brand accent - primary buttons, section headers, links, highlighted values -->
+    <color name="bridge_accent">#0B66C3</color>
+    <!-- The system default for text selection (long-press/select-all inside an EditText) is
+         whatever the device/OEM ships, not this app's blue - on some devices (MIUI in
+         particular) that default renders as red. Setting android:textColorHighlight in
+         themes.xml to this - a translucent version of bridge_accent - makes text selection
+         match the app's own theme everywhere instead of leaking through an OEM default. -->
+    <color name="text_selection_highlight">#4D0B66C3</color>
+
+    <!-- Surfaces -->
+    <color name="bridge_bg">#F4F7FB</color>
+    <color name="bridge_card">#FFFFFF</color>
+    <color name="bridge_input_bg">#FFFFFF</color>
+    <color name="bridge_icon_box_bg">#F1F5F9</color>
+    <color name="bridge_border">#D9E2EC</color>
+
+    <!-- Text -->
+    <color name="bridge_text_primary">#1F2937</color>
+    <color name="bridge_text_secondary">#5F6368</color>
+    <color name="bridge_text_tertiary">#94A3B8</color>
+
+    <!-- Header (top app bar) specific tones -->
+    <color name="bridge_header_title">#FFFFFF</color>
+    <color name="bridge_header_subtitle">#D9E8FB</color>
+    <color name="bridge_header_icon">#FFFFFF</color>
+    <color name="bridge_header_icon_accent">#FFFFFF</color>
+    <color name="bridge_icon_neutral">#334155</color>
+
+    <!-- Status -->
+    <color name="status_ok">#16A34A</color>
+    <color name="status_error">#DC2626</color>
+    <color name="status_warn">#D97706</color>
+    <color name="status_idle">#94A3B8</color>
+
+    <!-- "Hex matrix" viewer - adapts with the rest of the UI (unlike the old fixed
+         green-on-black terminal look) so it always matches the CH341A Programmer
+         reference design in both light and dark. -->
+    <color name="hex_bg">#FFFFFF</color>
+    <color name="hex_header_bg">#F1F5F9</color>
+    <color name="hex_offset">#0B66C3</color>
+    <color name="hex_byte">#374151</color>
+    <color name="hex_byte_highlight">#374151</color>
+    <color name="hex_ascii">#9CA3AF</color>
+    <color name="hex_ascii_highlight">#1F2937</color>
+
+    <!-- Find/Replace dialog result highlighting and Hex Compare tab diff highlighting, inside the
+         hex viewer above - alpha-blended so the printable/non-printable text underneath still
+         reads, same day/night pattern as the rest of this file. hex_diff_highlight_* stays in the
+         red family in both modes (see values-night/colors.xml for dark's byte-exact copy of the
+         reference HTML's .diff-highlight rule) - light mode's own shade is tuned for a white
+         background rather than reusing dark's rgba(244,63,94,.35)/#fecdd3 verbatim, which reads as
+         pale pink-on-white instead of a clear red. -->
+    <color name="hex_find_highlight_bg">#4D0B66C3</color>
+    <color name="hex_find_highlight_text">#0B66C3</color>
+    <color name="hex_replace_highlight_bg">#4D16A34A</color>
+    <color name="hex_replace_highlight_text">#16A34A</color>
+    <color name="hex_diff_highlight_bg">#4DDC2626</color>
+    <color name="hex_diff_highlight_text">#DC2626</color>
+    <!-- ASCII column's diff color only - text only, no background (reference HTML uses amber-300,
+         #FCD34D, but that's unreadable on a white background - this is the "choose a different one
+         for light mode" amber, Tailwind amber-700). -->
+    <color name="hex_diff_ascii_text">#B45309</color>
+
+    <!-- Log panel -->
+    <color name="log_bg">#F8FAFC</color>
+    <color name="log_header_bg">#F1F5F9</color>
+    <color name="log_timestamp">#94A3B8</color>
+
+    <!-- Confirm/edit dialogs (Erase, Write Random, Write-to-chip confirms, and the hex editor's
+         text/byte/ASCII entry prompts). Same day/night pattern as the rest of this file (see
+         values-night/colors.xml for the dark counterpart of each) - these used to be hardcoded to
+         a fixed light look modeled on hex_bg's OLD single-appearance behavior, but hex_bg itself
+         adapts with the rest of the UI now (see its comment above), so these should too. -->
+    <color name="dialog_surface">#FFFFFF</color>
+    <color name="dialog_title">#0F172A</color>
+    <color name="dialog_body">#475569</color>
+    <color name="dialog_hint">#94A3B8</color>
+    <color name="dialog_badge_bg">#0B66C3</color>
+    <color name="dialog_badge_glyph">#FFFFFF</color>
+    <color name="dialog_input_bg">#F8FAFC</color>
+    <color name="dialog_input_border">#D9E2EC</color>
+</resources>

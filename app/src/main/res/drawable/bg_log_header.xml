@@ -1,0 +1,8 @@
+<!--
+  Copyright (c) 2026 Yassine Moukil ELECTRO-GAMMA. All rights reserved.
+  Author: Yassine Moukil ELECTRO-GAMMA
+  Third-party / ported code attributions: see NOTICE.md
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/log_header_bg"/>
+</shape>

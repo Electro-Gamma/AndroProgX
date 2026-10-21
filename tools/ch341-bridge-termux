@@ -1,0 +1,289 @@
+#!/data/data/com.termux/files/usr/bin/python3
+# Copyright (c) 2026 Yassine Moukil ELECTRO-GAMMA. All rights reserved.
+# Author: Yassine Moukil ELECTRO-GAMMA
+# Third-party / ported code attributions: see NOTICE.md
+"""
+ch341-bridge - Termux client for AndroProgX's I2C-over-TCP / SPI-over-TCP servers.
+
+The app doesn't use a Unix socket or a same-package IPC channel of any kind -
+its "TCP Server" page opens a real TCP ServerSocket (see the Kotlin classes
+I2cTcpServer.kt / SpiTcpServer.kt), the same as any network server. Termux and
+the app are separate, unrelated packages, so the only way to reach it - from
+Termux or from anywhere else - is a normal TCP connection to that port. Since
+this script runs on the same phone as the app, the default host is 127.0.0.1;
+pass --host to reach the app from a different device on the same network (the
+app's own screen shows the address other devices should use).
+
+Wire protocol (all multi-byte integers big-endian; see the two Kotlin classes
+above for the authoritative version this is kept in sync with):
+
+  I2C  request:  [opcode u8][addr7 u8][writeLen u16][writeData...][readLen u16]
+  SPI  request:  [opcode u8]          [writeLen u16][writeData...][readLen u16]
+  both response: [status u8][dataLen u16][data...]
+
+  I2C opcodes: 0x01 write, 0x02 read, 0x03 write-then-read (repeated START)
+  SPI opcodes: 0x01 transfer (one packet sequence), 0x02 write-then-read
+               (two separate bursts under one CS pulse - required, not just
+               preferred, for a real address phase followed by a bulk read;
+               see Ch341Spi.writeThenRead's doc in the app for why)
+  status:      0x00 OK, 0x01 bus/USB error, 0x02 bad request
+
+Usage:
+  ch341-bridge i2c read       <addr7> <readLen>            [--host H] [--port P]
+  ch341-bridge i2c write      <addr7> <hexbytes>            [--host H] [--port P]
+  ch341-bridge i2c write-read <addr7> <hexbytes> <readLen>  [--host H] [--port P]
+  ch341-bridge spi transfer   <hexbytes> <readLen>          [--host H] [--port P]
+  ch341-bridge spi write-read <hexbytes> <readLen>          [--host H] [--port P]
+  ch341-bridge status {i2c,spi}                             [--host H] [--port P]
+  ch341-bridge raw {i2c,spi}                                [--host H] [--port P]
+
+<addr7> is the 7-bit I2C device address (e.g. 0x50 or 80 - decimal, 0x.., 0o..
+and 0b.. all accepted). <hexbytes> is a run of hex digits (spaces/colons are
+ignored for readability), or "-" for none, e.g. A0FF, "A0 FF", or -.
+
+--host defaults to 127.0.0.1. --port defaults to 3334 for i2c, 3335 for spi -
+matching the app's own default port fields, changed there if you changed them.
+
+`raw` is the power-user escape hatch: it reads one already-framed request
+(exactly the bytes above, opcode through readLen) from stdin, sends it as-is,
+and writes the raw response frame to stdout untouched - for scripting against
+the protocol directly instead of through the read/write/transfer subcommands.
+
+`status` only confirms the TCP port accepts a connection - the server never
+sends anything until a client speaks first, so this can't confirm it's
+actually AndroProgX on the other end, only that something is listening.
+
+Environment:
+  CH341_BRIDGE_DEBUG=1   Print the request/response frames to stderr.
+
+Exit codes: 0 ok, 1 connection/transport failure, 2 bad arguments,
+3 bus/USB error reported by the app (chip not wired up, nothing acked, ...).
+"""
+
+import argparse
+import os
+import socket
+import struct
+import sys
+
+DEBUG = os.environ.get("CH341_BRIDGE_DEBUG") == "1"
+
+STATUS_OK = 0x00
+STATUS_BUS_ERROR = 0x01
+STATUS_BAD_REQUEST = 0x02
+STATUS_NAMES = {STATUS_OK: "OK", STATUS_BUS_ERROR: "bus/USB error", STATUS_BAD_REQUEST: "bad request"}
+
+DEFAULT_PORT = {"i2c": 3334, "spi": 3335}
+
+
+def log(msg):
+    if DEBUG:
+        sys.stderr.write(f"[bridge] {msg}\n")
+        sys.stderr.flush()
+
+
+def parse_hex_bytes(text):
+    if text is None or text in ("-", ""):
+        return b""
+    cleaned = "".join(ch for ch in text if ch not in " :,\t")
+    if len(cleaned) % 2 != 0:
+        raise ValueError(f"odd number of hex digits in {text!r}")
+    try:
+        return bytes.fromhex(cleaned)
+    except ValueError as e:
+        raise ValueError(f"not valid hex: {text!r} ({e})")
+
+
+def parse_int(text):
+    return int(text, 0)  # accepts "80", "0x50", "0o120", "0b1010000"
+
+
+def recv_exactly(sock, n):
+    buf = bytearray()
+    while len(buf) < n:
+        chunk = sock.recv(n - len(buf))
+        if not chunk:
+            raise ConnectionError("connection closed mid-response")
+        buf += chunk
+    return bytes(buf)
+
+
+def connect(host, port):
+    log(f"connecting to {host}:{port}")
+    sock = socket.create_connection((host, port), timeout=5)
+    sock.settimeout(10)
+    return sock
+
+
+def send_request(sock, frame):
+    log(f"-> {frame.hex()}")
+    sock.sendall(frame)
+
+
+def read_response(sock):
+    header = recv_exactly(sock, 3)
+    status, data_len = struct.unpack(">BH", header)
+    data = recv_exactly(sock, data_len) if data_len else b""
+    log(f"<- status={STATUS_NAMES.get(status, hex(status))} data={data.hex()}")
+    return status, data
+
+
+def print_result(status, data):
+    if status == STATUS_OK:
+        print(data.hex(" ") if data else "(0 bytes)")
+        return 0
+    sys.stderr.write(f"[!] {STATUS_NAMES.get(status, f'unknown status 0x{status:02X}')}\n")
+    return 3
+
+
+# ---- i2c ---------------------------------------------------------------
+
+def i2c_frame(opcode, addr7, write_data, read_len):
+    return struct.pack(">BBH", opcode, addr7, len(write_data)) + write_data + struct.pack(">H", read_len)
+
+
+def cmd_i2c(args):
+    sock = connect(args.host, args.port)
+    try:
+        if args.i2c_cmd == "read":
+            frame = i2c_frame(0x02, args.addr7, b"", args.read_len)
+        elif args.i2c_cmd == "write":
+            frame = i2c_frame(0x01, args.addr7, parse_hex_bytes(args.hexbytes), 0)
+        else:  # write-read
+            frame = i2c_frame(0x03, args.addr7, parse_hex_bytes(args.hexbytes), args.read_len)
+        send_request(sock, frame)
+        return print_result(*read_response(sock))
+    finally:
+        sock.close()
+
+
+# ---- spi -----------------------------------------------------------------
+
+def spi_frame(opcode, write_data, read_len):
+    return struct.pack(">BH", opcode, len(write_data)) + write_data + struct.pack(">H", read_len)
+
+
+def cmd_spi(args):
+    sock = connect(args.host, args.port)
+    try:
+        opcode = 0x01 if args.spi_cmd == "transfer" else 0x02
+        frame = spi_frame(opcode, parse_hex_bytes(args.hexbytes), args.read_len)
+        send_request(sock, frame)
+        return print_result(*read_response(sock))
+    finally:
+        sock.close()
+
+
+# ---- status / raw ----------------------------------------------------------
+
+def cmd_status(args):
+    try:
+        connect(args.host, args.port).close()
+    except OSError as e:
+        sys.stderr.write(f"[!] {args.bus}: nothing listening on {args.host}:{args.port} ({e})\n")
+        sys.stderr.write("    Start the matching TCP server on the app's \"TCP Server\" page first.\n")
+        return 1
+    print(f"[OK] {args.bus}: {args.host}:{args.port} accepted a connection")
+    return 0
+
+
+def cmd_raw(args):
+    frame = sys.stdin.buffer.read()
+    if not frame:
+        sys.stderr.write("[!] no frame on stdin\n")
+        return 2
+    sock = connect(args.host, args.port)
+    try:
+        send_request(sock, frame)
+        status, data = read_response(sock)
+        sys.stdout.buffer.write(struct.pack(">BH", status, len(data)) + data)
+        sys.stdout.buffer.flush()
+        return 0 if status == STATUS_OK else 3
+    finally:
+        sock.close()
+
+
+def build_parser():
+    p = argparse.ArgumentParser(
+        prog="ch341-bridge",
+        description="Talk to AndroProgX's I2C-over-TCP / SPI-over-TCP servers from Termux.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=__doc__,
+    )
+    sub = p.add_subparsers(dest="bus", required=True)
+
+    def add_host_port(leaf, default_port):
+        leaf.add_argument("--host", default="127.0.0.1")
+        leaf.add_argument("--port", type=int, default=default_port)
+
+    i2c = sub.add_parser("i2c", help="I2C-over-TCP (default port 3334)")
+    i2c_sub = i2c.add_subparsers(dest="i2c_cmd", required=True)
+
+    i2c_read = i2c_sub.add_parser("read")
+    i2c_read.add_argument("addr7", type=parse_int)
+    i2c_read.add_argument("read_len", type=parse_int)
+    add_host_port(i2c_read, DEFAULT_PORT["i2c"])
+
+    i2c_write = i2c_sub.add_parser("write")
+    i2c_write.add_argument("addr7", type=parse_int)
+    i2c_write.add_argument("hexbytes")
+    add_host_port(i2c_write, DEFAULT_PORT["i2c"])
+
+    i2c_wr = i2c_sub.add_parser("write-read")
+    i2c_wr.add_argument("addr7", type=parse_int)
+    i2c_wr.add_argument("hexbytes")
+    i2c_wr.add_argument("read_len", type=parse_int)
+    add_host_port(i2c_wr, DEFAULT_PORT["i2c"])
+
+    spi = sub.add_parser("spi", help="SPI-over-TCP (default port 3335)")
+    spi_sub = spi.add_subparsers(dest="spi_cmd", required=True)
+
+    spi_transfer = spi_sub.add_parser("transfer")
+    spi_transfer.add_argument("hexbytes")
+    spi_transfer.add_argument("read_len", type=parse_int)
+    add_host_port(spi_transfer, DEFAULT_PORT["spi"])
+
+    spi_wr = spi_sub.add_parser("write-read")
+    spi_wr.add_argument("hexbytes")
+    spi_wr.add_argument("read_len", type=parse_int)
+    add_host_port(spi_wr, DEFAULT_PORT["spi"])
+
+    status = sub.add_parser("status", help="Check whether a server's port is reachable")
+    status.add_argument("which", choices=["i2c", "spi"], metavar="{i2c,spi}")
+    add_host_port(status, None)
+
+    raw = sub.add_parser("raw", help="Send a pre-built frame from stdin, print the raw response")
+    raw.add_argument("which", choices=["i2c", "spi"], metavar="{i2c,spi}")
+    add_host_port(raw, None)
+
+    return p
+
+
+def main(argv):
+    args = build_parser().parse_args(argv)
+    try:
+        if args.bus == "i2c":
+            return cmd_i2c(args)
+        if args.bus == "spi":
+            return cmd_spi(args)
+        if args.bus == "status":
+            args.port = args.port or DEFAULT_PORT[args.which]
+            args.bus = args.which
+            return cmd_status(args)
+        if args.bus == "raw":
+            args.port = args.port or DEFAULT_PORT[args.which]
+            args.bus = args.which
+            return cmd_raw(args)
+    except ValueError as e:
+        sys.stderr.write(f"[!] {e}\n")
+        return 2
+    except (OSError, ConnectionError) as e:
+        sys.stderr.write(f"[!] connection failed: {e}\n")
+        if DEBUG:
+            raise
+        return 1
+    return 2
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

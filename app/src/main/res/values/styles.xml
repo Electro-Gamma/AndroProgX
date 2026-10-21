@@ -1,0 +1,230 @@
+<!--
+  Copyright (c) 2026 Yassine Moukil ELECTRO-GAMMA. All rights reserved.
+  Author: Yassine Moukil ELECTRO-GAMMA
+  Third-party / ported code attributions: see NOTICE.md
+-->
+<resources>
+    <!-- ====================================================================
+         CH341A Programmer design system - shared widget styles.
+         These only ever reference @color/... tokens, never literal colors,
+         so a single copy of this file works for both light and dark - the
+         token itself flips via values/colors.xml vs values-night/colors.xml.
+         ==================================================================== -->
+
+    <!-- Cards -->
+
+    <!-- Dialogs -->
+
+    <!-- Applied via themes.xml's alertDialogTheme, so every AlertDialog.Builder(this) in the app
+         (byte/ASCII/text edit, erase/write confirmations, chip detect) picks up this app's own
+         colors instead of the generic Material default (which doesn't adapt to our light/dark
+         tokens at all - it's the same washed-out gray dialog either way). -->
+    <style name="ThemeOverlay.Prog.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorSurface">@color/bridge_card</item>
+        <item name="colorOnSurface">@color/bridge_text_primary</item>
+        <item name="colorPrimary">@color/bridge_accent</item>
+        <item name="colorControlNormal">@color/bridge_text_secondary</item>
+        <item name="colorControlActivated">@color/bridge_accent</item>
+        <item name="android:textColorPrimary">@color/bridge_text_primary</item>
+        <item name="android:textColorSecondary">@color/bridge_text_secondary</item>
+        <item name="android:textColorHint">@color/bridge_text_tertiary</item>
+    </style>
+
+    <!-- Confirm/edit dialogs (Erase, Write Random, Write-to-chip confirms, and the hex editor's
+         text/byte/ASCII entry prompts) use this instead of ThemeOverlay.Prog.AlertDialog above -
+         see MainActivity's styledDialog() helper. Uses the dialog_* color tokens (colors.xml /
+         values-night/colors.xml), which adapt with the rest of the app's DayNight theme, same as
+         everything else here - this used to be hardcoded to a fixed light look, which didn't
+         match how every other token in this design system works. -->
+    <style name="ThemeOverlay.Prog.ConfirmDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorSurface">@color/dialog_surface</item>
+        <item name="colorOnSurface">@color/dialog_title</item>
+        <item name="colorPrimary">@color/dialog_badge_bg</item>
+        <item name="colorControlNormal">@color/dialog_body</item>
+        <item name="colorControlActivated">@color/dialog_badge_bg</item>
+        <item name="android:textColorPrimary">@color/dialog_title</item>
+        <item name="android:textColorSecondary">@color/dialog_body</item>
+        <item name="android:textColorHint">@color/dialog_hint</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.Prog.Dialog.FilledButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.Prog.Dialog.TextButton</item>
+    </style>
+
+    <style name="Widget.Prog.Dialog.FilledButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/dialog_badge_bg</item>
+        <item name="android:textColor">@color/dialog_badge_glyph</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.Prog.Dialog.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/dialog_badge_bg</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.Prog.Card" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/bridge_card</item>
+        <item name="strokeColor">@color/bridge_border</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cardCornerRadius">14dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="rippleColor">@color/bridge_accent</item>
+    </style>
+
+    <style name="Widget.Prog.Card.Compact">
+        <item name="cardCornerRadius">10dp</item>
+        <item name="cardElevation">1dp</item>
+    </style>
+
+    <!-- Buttons -->
+
+    <style name="Widget.Prog.Button.Filled" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/bridge_accent</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="iconTint">@android:color/white</item>
+        <item name="rippleColor">#33FFFFFF</item>
+    </style>
+
+    <!-- Icon-above-label style used for the Read/Write/Erase/etc. action row,
+         matching the reference design's square icon buttons. -->
+    <style name="Widget.Prog.Button.Filled.Stacked">
+        <item name="iconGravity">top</item>
+        <item name="iconPadding">2dp</item>
+        <item name="iconSize">18dp</item>
+        <item name="android:textSize">10.5sp</item>
+        <item name="android:insetTop">6dp</item>
+        <item name="android:insetBottom">6dp</item>
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingRight">2dp</item>
+        <item name="android:minWidth">0dp</item>
+    </style>
+
+    <style name="Widget.Prog.Button.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/bridge_accent</item>
+        <item name="android:textColor">@color/bridge_accent</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="iconTint">@color/bridge_accent</item>
+        <item name="rippleColor">@color/bridge_accent</item>
+    </style>
+
+    <!-- Icon-above-label outlined variant, pairs with Widget.Prog.Button.Filled.Stacked
+         in mixed primary/secondary action rows so button heights match. -->
+    <style name="Widget.Prog.Button.Outlined.Stacked">
+        <item name="iconGravity">top</item>
+        <item name="iconPadding">2dp</item>
+        <item name="iconSize">18dp</item>
+        <item name="android:textSize">10.5sp</item>
+        <item name="android:insetTop">6dp</item>
+        <item name="android:insetBottom">6dp</item>
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingRight">2dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="strokeWidth">1.3dp</item>
+    </style>
+
+    <style name="Widget.Prog.Button.Text" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/bridge_accent</item>
+        <item name="iconTint">@color/bridge_accent</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Text -->
+
+    <style name="TextAppearance.Prog.CardTitle" parent="">
+        <item name="android:textColor">@color/bridge_text_primary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAppearance.Prog.SectionHeader" parent="">
+        <item name="android:textColor">@color/bridge_accent</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0.02</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="TextAppearance.Prog.Label" parent="">
+        <item name="android:textColor">@color/bridge_text_secondary</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextAppearance.Prog.Hint" parent="">
+        <item name="android:textColor">@color/bridge_text_secondary</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="TextAppearance.Prog.Value" parent="">
+        <item name="android:textColor">@color/bridge_text_secondary</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- Inputs -->
+
+    <style name="Widget.Prog.EditText" parent="">
+        <item name="android:background">@drawable/bg_input_box</item>
+        <item name="android:textColor">@color/bridge_text_primary</item>
+        <item name="android:textColorHint">@color/bridge_text_tertiary</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <style name="Widget.Prog.Spinner" parent="">
+        <item name="android:background">@drawable/bg_input_box</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:popupBackground">@color/bridge_card</item>
+    </style>
+
+    <!-- Hex viewer column header -->
+
+    <style name="Widget.Prog.HexHeaderCell" parent="">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">8.5sp</item>
+        <item name="android:textColor">@color/bridge_text_secondary</item>
+    </style>
+
+    <!-- Chip Information / Parameters grid -->
+
+    <style name="TextAppearance.Prog.ChipInfoHeader" parent="">
+        <item name="android:textColor">@color/bridge_accent</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:layout_marginBottom">4dp</item>
+    </style>
+
+    <style name="TextAppearance.Prog.ChipInfoLabel" parent="">
+        <item name="android:textColor">@color/bridge_text_secondary</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="TextAppearance.Prog.ChipInfoValue" parent="">
+        <item name="android:textColor">@color/bridge_text_primary</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Fixed hardware constants (VCC, SPI frequency) get the monospace accent treatment. -->
+    <style name="TextAppearance.Prog.ChipInfoValue.Fixed">
+        <item name="android:textColor">@color/bridge_accent</item>
+        <item name="android:fontFamily">monospace</item>
+    </style>
+</resources>

@@ -1,0 +1,27 @@
+<!--
+  Copyright (c) 2026 Yassine Moukil ELECTRO-GAMMA. All rights reserved.
+  Author: Yassine Moukil ELECTRO-GAMMA
+  Third-party / ported code attributions: see NOTICE.md
+-->
+<resources>
+    <!-- CH341A Programmer look: DayNight parent means this single style resolves
+         against values/colors.xml in light mode and values-night/colors.xml in
+         dark mode automatically - no separate values-night/themes.xml needed. -->
+    <style name="Theme.AndroProgX" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/bridge_primary</item>
+        <item name="colorPrimaryDark">@color/bridge_primary_dark</item>
+        <item name="colorAccent">@color/bridge_accent</item>
+        <item name="colorControlActivated">@color/bridge_accent</item>
+        <item name="colorControlNormal">@color/bridge_text_secondary</item>
+        <item name="colorSurface">@color/bridge_card</item>
+        <item name="colorOnSurface">@color/bridge_text_primary</item>
+        <item name="android:windowBackground">@color/bridge_bg</item>
+        <item name="android:statusBarColor">@color/bridge_primary</item>
+        <item name="android:navigationBarColor">@color/bridge_primary</item>
+        <item name="android:textColorPrimary">@color/bridge_text_primary</item>
+        <item name="android:textColorSecondary">@color/bridge_text_secondary</item>
+        <item name="android:textColorHint">@color/bridge_text_tertiary</item>
+        <item name="android:textColorHighlight">@color/text_selection_highlight</item>
+        <item name="alertDialogTheme">@style/ThemeOverlay.Prog.AlertDialog</item>
+    </style>
+</resources>

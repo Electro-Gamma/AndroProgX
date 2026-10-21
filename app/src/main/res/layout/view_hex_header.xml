@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2026 Yassine Moukil ELECTRO-GAMMA. All rights reserved.
+  Author: Yassine Moukil ELECTRO-GAMMA
+  Third-party / ported code attributions: see NOTICE.md
+-->
+<!-- Static "Address / 00 01 .. 0F / ASCII" caption row shown once above each hex viewer's
+     RecyclerView. Column widths/weights here MUST match item_hex_row.xml / HexEditorAdapter's
+     weight constants (offset column 54dp, hex section weight 3, ASCII section weight 1, 5dp gap
+     before the 9th byte column) so this lines up exactly with the scrolling data below it. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="4dp"
+    android:paddingTop="2dp"
+    android:paddingBottom="4dp">
+
+    <TextView
+        android:layout_width="54dp"
+        android:layout_height="wrap_content"
+        android:text="@string/hex_header_address"
+        android:fontFamily="monospace"
+        android:textStyle="bold"
+        android:textSize="8.5sp"
+        android:textColor="@color/bridge_text_secondary"
+        android:gravity="start" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:orientation="horizontal">
+
+        <TextView style="@style/Widget.Prog.HexHeaderCell" android:text="00" />
+        <TextView style="@style/Widget.Prog.HexHeaderCell" android:text="01" />
+        <TextView style="@style/Widget.Prog.HexHeaderCell" android:text="02" />
+        <TextView style="@style/Widget.Prog.HexHeaderCell" android:text="03" />
+        <TextView style="@style/Widget.Prog.HexHeaderCell" android:text="04" />
+        <TextView style="@style/Widget.Prog.HexHeaderCell" android:text="05" />
+        <TextView style="@style/Widget.Prog.HexHeaderCell" android:text="06" />
+        <TextView style="@style/Widget.Prog.HexHeaderCell" android:text="07" />
+        <TextView
+            style="@style/Widget.Prog.HexHeaderCell"
+            android:layout_marginStart="5dp"
+            android:text="08" />
+        <TextView style="@style/Widget.Prog.HexHeaderCell" android:text="09" />
+        <TextView style="@style/Widget.Prog.HexHeaderCell" android:text="0A" />
+        <TextView style="@style/Widget.Prog.HexHeaderCell" android:text="0B" />
+        <TextView style="@style/Widget.Prog.HexHeaderCell" android:text="0C" />
+        <TextView style="@style/Widget.Prog.HexHeaderCell" android:text="0D" />
+        <TextView style="@style/Widget.Prog.HexHeaderCell" android:text="0E" />
+        <TextView style="@style/Widget.Prog.HexHeaderCell" android:text="0F" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvHexHeaderAscii"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="6dp"
+        android:text="@string/hex_header_ascii"
+        android:fontFamily="monospace"
+        android:textStyle="bold"
+        android:textSize="8.5sp"
+        android:textColor="@color/bridge_text_secondary"
+        android:gravity="start" />
+
+</LinearLayout>

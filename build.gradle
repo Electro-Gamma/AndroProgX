@@ -1,0 +1,14 @@
+/*
+ * Copyright (c) 2026 Yassine Moukil ELECTRO-GAMMA. All rights reserved.
+ * Author: Yassine Moukil ELECTRO-GAMMA
+ * Third-party / ported code attributions: see NOTICE.md
+ */
+
+plugins {
+    id 'com.android.application' version '8.5.2' apply false
+    id 'org.jetbrains.kotlin.android' version '1.9.24' apply false
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

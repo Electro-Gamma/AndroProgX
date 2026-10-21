@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2026 Yassine Moukil ELECTRO-GAMMA. All rights reserved.
+  Author: Yassine Moukil ELECTRO-GAMMA
+  Third-party / ported code attributions: see NOTICE.md
+-->
+<resources>
+    <!-- WCH CH341A (EEPROM/SPI/I2C programmer mode) -->
+    <usb-device vendor-id="6790" product-id="21778" /> <!-- 0x1A86 / 0x5512 -->
+</resources>

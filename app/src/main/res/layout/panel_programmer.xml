@@ -1,0 +1,2207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2026 Yassine Moukil ELECTRO-GAMMA. All rights reserved.
+  Author: Yassine Moukil ELECTRO-GAMMA
+  Third-party / ported code attributions: see NOTICE.md
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bridge_bg">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none"
+        android:fillViewport="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <!-- ==================== Connection card ==================== -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.Prog.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <FrameLayout
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:background="@drawable/bg_icon_box">
+
+                            <ImageView
+                                android:layout_width="26dp"
+                                android:layout_height="26dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_chip"
+                                android:contentDescription="@null"
+                                app:tint="@color/bridge_icon_neutral" />
+                        </FrameLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="12dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                style="@style/TextAppearance.Prog.CardTitle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/prog_device_label" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical">
+
+                                <View
+                                    android:id="@+id/vProgStatusDot"
+                                    android:layout_width="9dp"
+                                    android:layout_height="9dp"
+                                    android:background="@drawable/shape_dot" />
+
+                                <TextView
+                                    android:id="@+id/tvProgStatus"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="6dp"
+                                    android:text="@string/prog_status_disconnected"
+                                    android:textColor="@color/status_error"
+                                    android:textStyle="bold"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <Button
+                            android:id="@+id/btnProgConnect"
+                            style="@style/Widget.Prog.Button.Filled"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:minWidth="0dp"
+                            android:minHeight="0dp"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:text="@string/prog_connect"
+                            android:textSize="11sp"
+                            app:icon="@drawable/ic_usb"
+                            app:iconSize="15dp"
+                            app:iconPadding="5dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- ==================== I2C EEPROM panel ==================== -->
+            <LinearLayout
+                android:id="@+id/llI2cPanel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <!-- Mode selector -->
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Prog.Card.Compact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <TextView
+                            style="@style/TextAppearance.Prog.Label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
+                            android:text="@string/prog_mode_label" />
+
+                        <LinearLayout
+                            android:id="@+id/spinnerEepromMode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:background="@drawable/bg_detect_box"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="9dp">
+
+                            <TextView
+                                android:id="@+id/tvEepromModeValue"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:singleLine="true"
+                                android:ellipsize="end"
+                                android:textColor="@color/bridge_text_secondary"
+                                android:textSize="11sp" />
+
+                            <ImageView
+                                android:layout_width="11dp"
+                                android:layout_height="11dp"
+                                android:layout_marginStart="6dp"
+                                android:src="@drawable/ic_chevron_down"
+                                android:contentDescription="@null"
+                                app:tint="@color/bridge_text_secondary" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Chip Information / Parameters -->
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Prog.Card.Compact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginEnd="8dp">
+
+                            <TextView style="@style/TextAppearance.Prog.ChipInfoHeader" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/prog_chip_info_header" />
+
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                                <TextView style="@style/TextAppearance.Prog.ChipInfoLabel" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/prog_info_manufacturer" />
+                                <TextView
+                                    android:id="@+id/tvEepromInfoManufacturerValue"
+                                    style="@style/TextAppearance.Prog.ChipInfoValue"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/prog_info_placeholder" />
+                            </LinearLayout>
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                                <TextView style="@style/TextAppearance.Prog.ChipInfoLabel" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/prog_info_chip" />
+                                <TextView
+                                    android:id="@+id/tvEepromInfoChipValue"
+                                    style="@style/TextAppearance.Prog.ChipInfoValue"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/prog_info_placeholder" />
+                            </LinearLayout>
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                                <TextView style="@style/TextAppearance.Prog.ChipInfoLabel" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/prog_info_i2c_address" />
+                                <TextView
+                                    android:id="@+id/tvEepromInfoAddressValue"
+                                    style="@style/TextAppearance.Prog.ChipInfoValue"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/prog_info_placeholder" />
+                            </LinearLayout>
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                                <TextView style="@style/TextAppearance.Prog.ChipInfoLabel" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/prog_info_capacity" />
+                                <TextView
+                                    android:id="@+id/tvEepromInfoCapacityValue"
+                                    style="@style/TextAppearance.Prog.ChipInfoValue"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/prog_info_placeholder" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView style="@style/TextAppearance.Prog.ChipInfoHeader" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/prog_parameters_header" />
+
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                                <TextView style="@style/TextAppearance.Prog.ChipInfoLabel" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/prog_info_page_size" />
+                                <TextView
+                                    android:id="@+id/tvEepromInfoPageSizeValue"
+                                    style="@style/TextAppearance.Prog.ChipInfoValue"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/prog_info_placeholder" />
+                            </LinearLayout>
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                                <TextView style="@style/TextAppearance.Prog.ChipInfoLabel" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/prog_info_word_address" />
+                                <TextView
+                                    android:id="@+id/tvEepromInfoWordAddrValue"
+                                    style="@style/TextAppearance.Prog.ChipInfoValue"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/prog_info_placeholder" />
+                            </LinearLayout>
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                                <TextView style="@style/TextAppearance.Prog.ChipInfoLabel" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/prog_info_vcc" />
+                                <TextView
+                                    android:id="@+id/tvEepromInfoVccValue"
+                                    style="@style/TextAppearance.Prog.ChipInfoValue"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/prog_info_placeholder" />
+                            </LinearLayout>
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                                <TextView style="@style/TextAppearance.Prog.ChipInfoLabel" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/prog_info_i2c_frequency" />
+                                <TextView style="@style/TextAppearance.Prog.ChipInfoValue.Fixed" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/prog_info_i2c_frequency_value" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Prog.Card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            style="@style/TextAppearance.Prog.SectionHeader"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/prog_eeprom_label" />
+
+                        <Spinner
+                            android:id="@+id/spinnerEepromChip"
+                            style="@style/Widget.Prog.Spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp" />
+
+                        <EditText
+                            android:id="@+id/etEepromCustomSize"
+                            style="@style/Widget.Prog.EditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:hint="@string/prog_custom_size_hint"
+                            android:inputType="number"
+                            android:visibility="gone" />
+
+                        <!-- READ / WRITE / ERASE / VERIFY / DUMP -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/btnEepromRead"
+                                style="@style/Widget.Prog.Button.Filled.Stacked"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginEnd="3dp"
+                                android:text="@string/prog_read"
+                                app:icon="@drawable/ic_read" />
+
+                            <Button
+                                android:id="@+id/btnEepromWrite"
+                                style="@style/Widget.Prog.Button.Filled.Stacked"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginHorizontal="3dp"
+                                android:text="@string/prog_write"
+                                app:icon="@drawable/ic_write" />
+
+                            <Button
+                                android:id="@+id/btnEepromErase"
+                                style="@style/Widget.Prog.Button.Filled.Stacked"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginHorizontal="3dp"
+                                android:text="@string/prog_erase"
+                                app:icon="@drawable/ic_erase" />
+
+                            <Button
+                                android:id="@+id/btnEepromVerify"
+                                style="@style/Widget.Prog.Button.Filled.Stacked"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginHorizontal="3dp"
+                                android:text="@string/prog_verify"
+                                app:icon="@drawable/ic_verify" />
+
+                            <Button
+                                android:id="@+id/btnEepromDump"
+                                style="@style/Widget.Prog.Button.Filled.Stacked"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="3dp"
+                                android:text="@string/prog_dump"
+                                app:icon="@drawable/ic_file" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/btnEepromRandom"
+                                style="@style/Widget.Prog.Button.Filled.Stacked"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginEnd="3dp"
+                                android:text="@string/prog_random"
+                                app:icon="@drawable/ic_shuffle" />
+
+                            <Button
+                                android:id="@+id/btnEepromWriteText"
+                                style="@style/Widget.Prog.Button.Filled.Stacked"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginHorizontal="3dp"
+                                android:text="@string/prog_write_text"
+                                app:icon="@drawable/ic_write_text" />
+
+                            <Button
+                                android:id="@+id/btnEepromFind"
+                                style="@style/Widget.Prog.Button.Filled.Stacked"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="3dp"
+                                android:text="@string/prog_find"
+                                app:icon="@drawable/ic_search_outline" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvEepromInfo"
+                            style="@style/TextAppearance.Prog.Hint"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- ==================== I2C EEPROM hex viewer (always populated - see MainActivity's
+                     default placeholder buffer, never blank on launch) ==================== -->
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Prog.Card.Compact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- Segmented tab header: Hex Dump / Hex Compare - see MainActivity's
+                             switchEepromHexTab(). -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/hex_header_bg"
+                            android:orientation="horizontal"
+                            android:padding="4dp">
+
+                            <TextView
+                                android:id="@+id/tabEepromHexDump"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/bg_input_box"
+                                android:backgroundTint="@color/bridge_accent"
+                                android:gravity="center"
+                                android:paddingVertical="6dp"
+                                android:text="@string/prog_hex_dump_tab"
+                                android:textColor="@android:color/white"
+                                android:textStyle="bold"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/tabEepromHexCompare"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:paddingVertical="6dp"
+                                android:text="@string/prog_hex_compare_tab"
+                                android:textColor="@color/bridge_text_secondary"
+                                android:textStyle="bold"
+                                android:textSize="11sp" />
+                        </LinearLayout>
+
+                        <!-- "Hex Dump" tab content -->
+                        <LinearLayout
+                            android:id="@+id/llEepromHexDumpView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <include layout="@layout/view_hex_header" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvEepromHex"
+                                android:layout_width="match_parent"
+                                android:layout_height="260dp"
+                                android:background="@color/hex_bg"
+                                android:paddingHorizontal="4dp"
+                                android:paddingBottom="4dp"
+                                android:clipToPadding="false" />
+
+                            <TextView
+                                android:id="@+id/tvEepromHexInfo"
+                                style="@style/TextAppearance.Prog.Hint"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/hex_bg"
+                                android:paddingHorizontal="10dp"
+                                android:paddingBottom="6dp"
+                                android:text="@string/prog_hex_no_data" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:padding="10dp">
+
+                                <Button
+                                    android:id="@+id/btnEepromLoadFile"
+                                    style="@style/Widget.Prog.Button.Filled.Stacked"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_marginEnd="3dp"
+                                    android:text="@string/prog_load_file"
+                                    app:icon="@drawable/ic_file" />
+
+                                <Button
+                                    android:id="@+id/btnEepromSaveFile"
+                                    style="@style/Widget.Prog.Button.Filled.Stacked"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_marginStart="3dp"
+                                    android:text="@string/prog_save_file"
+                                    app:icon="@drawable/ic_save" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- "Hex Compare" tab content: chip data vs. file data, byte diffs
+                             highlighted - see MainActivity's refreshEepromCompare(). -->
+                        <LinearLayout
+                            android:id="@+id/llEepromHexCompareView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="gone"
+                            android:padding="8dp">
+
+                            <!-- Chip data -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:paddingBottom="4dp">
+
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:src="@drawable/ic_chip_small"
+                                    android:contentDescription="@null"
+                                    app:tint="@color/bridge_accent" />
+
+                                <TextView
+                                    style="@style/TextAppearance.Prog.SectionHeader"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_marginStart="6dp"
+                                    android:text="@string/compare_chip_label" />
+
+                                <TextView
+                                    style="@style/TextAppearance.Prog.ChipInfoLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/compare_crc_label" />
+
+                                <TextView
+                                    android:id="@+id/tvEepromCompareChipCrc"
+                                    style="@style/TextAppearance.Prog.ChipInfoValue.Fixed"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="3dp"
+                                    android:text="@string/compare_value_placeholder" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/tvEepromCompareChipName"
+                                style="@style/TextAppearance.Prog.Hint"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="4dp" />
+
+                            <include
+                                android:id="@+id/includeEepromCompareChipHeader"
+                                layout="@layout/view_hex_header" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvEepromCompareChip"
+                                android:layout_width="match_parent"
+                                android:layout_height="140dp"
+                                android:background="@color/hex_bg"
+                                android:paddingHorizontal="4dp"
+                                android:paddingBottom="4dp"
+                                android:clipToPadding="false" />
+
+                            <TextView
+                                android:id="@+id/tvEepromCompareChipHint"
+                                style="@style/TextAppearance.Prog.Hint"
+                                android:layout_width="match_parent"
+                                android:layout_height="140dp"
+                                android:background="@color/hex_bg"
+                                android:gravity="center"
+                                android:text="@string/compare_no_chip"
+                                android:visibility="gone" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="@color/bridge_border" />
+
+                            <!-- File data -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:paddingBottom="4dp">
+
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:src="@drawable/ic_file"
+                                    android:contentDescription="@null"
+                                    app:tint="@color/bridge_accent" />
+
+                                <TextView
+                                    style="@style/TextAppearance.Prog.SectionHeader"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_marginStart="6dp"
+                                    android:text="@string/compare_file_label" />
+
+                                <TextView
+                                    style="@style/TextAppearance.Prog.ChipInfoLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/compare_crc_label" />
+
+                                <TextView
+                                    android:id="@+id/tvEepromCompareFileCrc"
+                                    style="@style/TextAppearance.Prog.ChipInfoValue.Fixed"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="3dp"
+                                    android:text="@string/compare_value_placeholder" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/tvEepromCompareFileName"
+                                style="@style/TextAppearance.Prog.Hint"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="4dp" />
+
+                            <include
+                                android:id="@+id/includeEepromCompareFileHeader"
+                                layout="@layout/view_hex_header" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvEepromCompareFile"
+                                android:layout_width="match_parent"
+                                android:layout_height="140dp"
+                                android:background="@color/hex_bg"
+                                android:paddingHorizontal="4dp"
+                                android:paddingBottom="4dp"
+                                android:clipToPadding="false" />
+
+                            <TextView
+                                android:id="@+id/tvEepromCompareFileHint"
+                                style="@style/TextAppearance.Prog.Hint"
+                                android:layout_width="match_parent"
+                                android:layout_height="140dp"
+                                android:background="@color/hex_bg"
+                                android:gravity="center"
+                                android:text="@string/compare_no_file"
+                                android:visibility="gone" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical">
+
+                                <CheckBox
+                                    android:id="@+id/cbEepromCompareAscii"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:checked="true"
+                                    android:text="@string/compare_ascii_toggle"
+                                    android:textColor="@color/bridge_text_secondary"
+                                    android:textSize="11sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- ==================== SPI flash panel ==================== -->
+            <LinearLayout
+                android:id="@+id/llSpiPanel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <!-- Mode / Chip selectors row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <com.google.android.material.card.MaterialCardView
+                        style="@style/Widget.Prog.Card.Compact"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="4dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="8dp">
+
+                            <TextView
+                                style="@style/TextAppearance.Prog.Label"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="4dp"
+                                android:text="@string/prog_mode_label" />
+
+                            <LinearLayout
+                                android:id="@+id/spinnerSpiMode"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:background="@drawable/bg_detect_box"
+                                android:foreground="?attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="9dp">
+
+                                <TextView
+                                    android:id="@+id/tvSpiModeValue"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:singleLine="true"
+                                    android:ellipsize="end"
+                                    android:textColor="@color/bridge_text_secondary"
+                                    android:textSize="11sp" />
+
+                                <ImageView
+                                    android:layout_width="11dp"
+                                    android:layout_height="11dp"
+                                    android:layout_marginStart="6dp"
+                                    android:src="@drawable/ic_chevron_down"
+                                    android:contentDescription="@null"
+                                    app:tint="@color/bridge_text_secondary" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        style="@style/Widget.Prog.Card.Compact"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="4dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="8dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:layout_marginBottom="4dp">
+
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:src="@drawable/ic_chip_small"
+                                    android:contentDescription="@null"
+                                    app:tint="@color/bridge_text_secondary" />
+
+                                <TextView
+                                    style="@style/TextAppearance.Prog.Label"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="4dp"
+                                    android:text="@string/prog_info_chip" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/btnSpiChipDetectBox"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:background="@drawable/bg_detect_box"
+                                android:foreground="?attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="9dp">
+
+                                <ImageView
+                                    android:layout_width="13dp"
+                                    android:layout_height="13dp"
+                                    android:src="@drawable/ic_search_outline"
+                                    android:contentDescription="@null"
+                                    app:tint="@color/bridge_icon_neutral" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_marginStart="6dp"
+                                    android:text="@string/prog_detect_chip_label"
+                                    android:textColor="@color/bridge_text_secondary"
+                                    android:textSize="11sp" />
+
+                                <ImageView
+                                    android:layout_width="11dp"
+                                    android:layout_height="11dp"
+                                    android:src="@drawable/ic_chevron_down"
+                                    android:contentDescription="@null"
+                                    app:tint="@color/bridge_text_secondary" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+
+                <!-- Chip Information / Parameters -->
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Prog.Card.Compact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginEnd="8dp">
+
+                            <TextView style="@style/TextAppearance.Prog.ChipInfoHeader" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/prog_chip_info_header" />
+
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                                <TextView style="@style/TextAppearance.Prog.ChipInfoLabel" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/prog_info_manufacturer" />
+                                <TextView
+                                    android:id="@+id/tvSpiInfoManufacturerValue"
+                                    style="@style/TextAppearance.Prog.ChipInfoValue"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/prog_info_placeholder" />
+                            </LinearLayout>
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                                <TextView style="@style/TextAppearance.Prog.ChipInfoLabel" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/prog_info_chip" />
+                                <TextView
+                                    android:id="@+id/tvSpiInfoChipValue"
+                                    style="@style/TextAppearance.Prog.ChipInfoValue"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/prog_info_placeholder" />
+                            </LinearLayout>
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                                <TextView style="@style/TextAppearance.Prog.ChipInfoLabel" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/prog_info_jedec" />
+                                <TextView
+                                    android:id="@+id/tvSpiInfoJedecValue"
+                                    style="@style/TextAppearance.Prog.ChipInfoValue"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/prog_info_placeholder" />
+                            </LinearLayout>
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                                <TextView style="@style/TextAppearance.Prog.ChipInfoLabel" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/prog_info_capacity" />
+                                <TextView
+                                    android:id="@+id/tvSpiInfoCapacityValue"
+                                    style="@style/TextAppearance.Prog.ChipInfoValue"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/prog_info_placeholder" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView style="@style/TextAppearance.Prog.ChipInfoHeader" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/prog_parameters_header" />
+
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                                <TextView style="@style/TextAppearance.Prog.ChipInfoLabel" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/prog_info_page_size" />
+                                <TextView
+                                    android:id="@+id/tvSpiInfoPageSizeValue"
+                                    style="@style/TextAppearance.Prog.ChipInfoValue"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/prog_info_placeholder" />
+                            </LinearLayout>
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                                <TextView style="@style/TextAppearance.Prog.ChipInfoLabel" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/prog_info_sector_size" />
+                                <TextView
+                                    android:id="@+id/tvSpiInfoSectorSizeValue"
+                                    style="@style/TextAppearance.Prog.ChipInfoValue"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/prog_info_placeholder" />
+                            </LinearLayout>
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                                <TextView style="@style/TextAppearance.Prog.ChipInfoLabel" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/prog_info_vcc" />
+                                <TextView style="@style/TextAppearance.Prog.ChipInfoValue.Fixed" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/prog_info_vcc_value" />
+                            </LinearLayout>
+                            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="2dp">
+                                <TextView style="@style/TextAppearance.Prog.ChipInfoLabel" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/prog_info_frequency" />
+                                <TextView style="@style/TextAppearance.Prog.ChipInfoValue.Fixed" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/prog_info_frequency_value" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Prog.Card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            style="@style/TextAppearance.Prog.SectionHeader"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/prog_spi_label" />
+
+                        <Spinner
+                            android:id="@+id/spinnerSpiChip"
+                            style="@style/Widget.Prog.Spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp" />
+
+                        <LinearLayout
+                            android:id="@+id/llSpiCustomSize"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:layout_marginEnd="6dp">
+
+                                <TextView
+                                    style="@style/TextAppearance.Prog.Label"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/prog_spi_size_label" />
+
+                                <EditText
+                                    android:id="@+id/etSpiSizeKb"
+                                    style="@style/Widget.Prog.EditText"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:inputType="number"
+                                    android:text="@string/prog_spi_default_size_kb" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:layout_marginStart="6dp">
+
+                                <TextView
+                                    style="@style/TextAppearance.Prog.Label"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/prog_spi_page_label" />
+
+                                <EditText
+                                    android:id="@+id/etSpiPageSize"
+                                    style="@style/Widget.Prog.EditText"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:inputType="number"
+                                    android:text="@string/prog_spi_default_page" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- READ / WRITE / ERASE / VERIFY / DUMP -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/btnSpiRead"
+                                style="@style/Widget.Prog.Button.Filled.Stacked"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginEnd="3dp"
+                                android:text="@string/prog_read"
+                                app:icon="@drawable/ic_read" />
+
+                            <Button
+                                android:id="@+id/btnSpiWrite"
+                                style="@style/Widget.Prog.Button.Filled.Stacked"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginHorizontal="3dp"
+                                android:text="@string/prog_write"
+                                app:icon="@drawable/ic_write" />
+
+                            <Button
+                                android:id="@+id/btnSpiErase"
+                                style="@style/Widget.Prog.Button.Filled.Stacked"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginHorizontal="3dp"
+                                android:text="@string/prog_erase"
+                                app:icon="@drawable/ic_erase" />
+
+                            <Button
+                                android:id="@+id/btnSpiVerify"
+                                style="@style/Widget.Prog.Button.Filled.Stacked"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginHorizontal="3dp"
+                                android:text="@string/prog_verify"
+                                app:icon="@drawable/ic_verify" />
+
+                            <Button
+                                android:id="@+id/btnSpiDump"
+                                style="@style/Widget.Prog.Button.Filled.Stacked"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="3dp"
+                                android:text="@string/prog_dump"
+                                app:icon="@drawable/ic_file" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/btnSpiRandom"
+                                style="@style/Widget.Prog.Button.Filled.Stacked"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginEnd="3dp"
+                                android:text="@string/prog_random"
+                                app:icon="@drawable/ic_shuffle" />
+
+                            <Button
+                                android:id="@+id/btnSpiWriteText"
+                                style="@style/Widget.Prog.Button.Filled.Stacked"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginHorizontal="3dp"
+                                android:text="@string/prog_write_text"
+                                app:icon="@drawable/ic_write_text" />
+
+                            <Button
+                                android:id="@+id/btnSpiFind"
+                                style="@style/Widget.Prog.Button.Filled.Stacked"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="3dp"
+                                android:text="@string/prog_find"
+                                app:icon="@drawable/ic_search_outline" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvSpiInfo"
+                            style="@style/TextAppearance.Prog.Hint"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- ==================== I2C EEPROM hex viewer (always populated - see MainActivity's
+                     default placeholder buffer, never blank on launch) ==================== -->
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Prog.Card.Compact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- Segmented tab header: Hex Dump / Hex Compare - see MainActivity's
+                             switchSpiHexTab(). -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/hex_header_bg"
+                            android:orientation="horizontal"
+                            android:padding="4dp">
+
+                            <TextView
+                                android:id="@+id/tabSpiHexDump"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="@drawable/bg_input_box"
+                                android:backgroundTint="@color/bridge_accent"
+                                android:gravity="center"
+                                android:paddingVertical="6dp"
+                                android:text="@string/prog_hex_dump_tab"
+                                android:textColor="@android:color/white"
+                                android:textStyle="bold"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/tabSpiHexCompare"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:paddingVertical="6dp"
+                                android:text="@string/prog_hex_compare_tab"
+                                android:textColor="@color/bridge_text_secondary"
+                                android:textStyle="bold"
+                                android:textSize="11sp" />
+                        </LinearLayout>
+
+                        <!-- "Hex Dump" tab content -->
+                        <LinearLayout
+                            android:id="@+id/llSpiHexDumpView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <include layout="@layout/view_hex_header" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvSpiHex"
+                                android:layout_width="match_parent"
+                                android:layout_height="260dp"
+                                android:background="@color/hex_bg"
+                                android:paddingHorizontal="4dp"
+                                android:paddingBottom="4dp"
+                                android:clipToPadding="false" />
+
+                            <TextView
+                                android:id="@+id/tvSpiHexInfo"
+                                style="@style/TextAppearance.Prog.Hint"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/hex_bg"
+                                android:paddingHorizontal="10dp"
+                                android:paddingBottom="6dp"
+                                android:text="@string/prog_hex_no_data" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:padding="10dp">
+
+                                <Button
+                                    android:id="@+id/btnSpiLoadFile"
+                                    style="@style/Widget.Prog.Button.Filled.Stacked"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_marginEnd="3dp"
+                                    android:text="@string/prog_load_file"
+                                    app:icon="@drawable/ic_file" />
+
+                                <Button
+                                    android:id="@+id/btnSpiSaveFile"
+                                    style="@style/Widget.Prog.Button.Filled.Stacked"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_marginStart="3dp"
+                                    android:text="@string/prog_save_file"
+                                    app:icon="@drawable/ic_save" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- "Hex Compare" tab content: chip data vs. file data, byte diffs
+                             highlighted - see MainActivity's refreshSpiCompare(). -->
+                        <LinearLayout
+                            android:id="@+id/llSpiHexCompareView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="gone"
+                            android:padding="8dp">
+
+                            <!-- Chip data -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:paddingBottom="4dp">
+
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:src="@drawable/ic_chip_small"
+                                    android:contentDescription="@null"
+                                    app:tint="@color/bridge_accent" />
+
+                                <TextView
+                                    style="@style/TextAppearance.Prog.SectionHeader"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_marginStart="6dp"
+                                    android:text="@string/compare_chip_label" />
+
+                                <TextView
+                                    style="@style/TextAppearance.Prog.ChipInfoLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/compare_crc_label" />
+
+                                <TextView
+                                    android:id="@+id/tvSpiCompareChipCrc"
+                                    style="@style/TextAppearance.Prog.ChipInfoValue.Fixed"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="3dp"
+                                    android:text="@string/compare_value_placeholder" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/tvSpiCompareChipName"
+                                style="@style/TextAppearance.Prog.Hint"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="4dp" />
+
+                            <include
+                                android:id="@+id/includeSpiCompareChipHeader"
+                                layout="@layout/view_hex_header" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvSpiCompareChip"
+                                android:layout_width="match_parent"
+                                android:layout_height="140dp"
+                                android:background="@color/hex_bg"
+                                android:paddingHorizontal="4dp"
+                                android:paddingBottom="4dp"
+                                android:clipToPadding="false" />
+
+                            <TextView
+                                android:id="@+id/tvSpiCompareChipHint"
+                                style="@style/TextAppearance.Prog.Hint"
+                                android:layout_width="match_parent"
+                                android:layout_height="140dp"
+                                android:background="@color/hex_bg"
+                                android:gravity="center"
+                                android:text="@string/compare_no_chip"
+                                android:visibility="gone" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginVertical="10dp"
+                                android:background="@color/bridge_border" />
+
+                            <!-- File data -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical"
+                                android:paddingBottom="4dp">
+
+                                <ImageView
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:src="@drawable/ic_file"
+                                    android:contentDescription="@null"
+                                    app:tint="@color/bridge_accent" />
+
+                                <TextView
+                                    style="@style/TextAppearance.Prog.SectionHeader"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:layout_marginStart="6dp"
+                                    android:text="@string/compare_file_label" />
+
+                                <TextView
+                                    style="@style/TextAppearance.Prog.ChipInfoLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/compare_crc_label" />
+
+                                <TextView
+                                    android:id="@+id/tvSpiCompareFileCrc"
+                                    style="@style/TextAppearance.Prog.ChipInfoValue.Fixed"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="3dp"
+                                    android:text="@string/compare_value_placeholder" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/tvSpiCompareFileName"
+                                style="@style/TextAppearance.Prog.Hint"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="4dp" />
+
+                            <include
+                                android:id="@+id/includeSpiCompareFileHeader"
+                                layout="@layout/view_hex_header" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvSpiCompareFile"
+                                android:layout_width="match_parent"
+                                android:layout_height="140dp"
+                                android:background="@color/hex_bg"
+                                android:paddingHorizontal="4dp"
+                                android:paddingBottom="4dp"
+                                android:clipToPadding="false" />
+
+                            <TextView
+                                android:id="@+id/tvSpiCompareFileHint"
+                                style="@style/TextAppearance.Prog.Hint"
+                                android:layout_width="match_parent"
+                                android:layout_height="140dp"
+                                android:background="@color/hex_bg"
+                                android:gravity="center"
+                                android:text="@string/compare_no_file"
+                                android:visibility="gone" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:orientation="horizontal"
+                                android:gravity="center_vertical">
+
+                                <CheckBox
+                                    android:id="@+id/cbSpiCompareAscii"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:checked="true"
+                                    android:text="@string/compare_ascii_toggle"
+                                    android:textColor="@color/bridge_text_secondary"
+                                    android:textSize="11sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- ==================== SSD1306 display panel ==================== -->
+            <LinearLayout
+                android:id="@+id/llDisplayPanel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <!-- Mode selector -->
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Prog.Card.Compact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <TextView
+                            style="@style/TextAppearance.Prog.Label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
+                            android:text="@string/prog_mode_label" />
+
+                        <LinearLayout
+                            android:id="@+id/spinnerDisplayMode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:background="@drawable/bg_detect_box"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="9dp">
+
+                            <TextView
+                                android:id="@+id/tvDisplayModeValue"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:singleLine="true"
+                                android:ellipsize="end"
+                                android:textColor="@color/bridge_text_secondary"
+                                android:textSize="11sp" />
+
+                            <ImageView
+                                android:layout_width="11dp"
+                                android:layout_height="11dp"
+                                android:layout_marginStart="6dp"
+                                android:src="@drawable/ic_chevron_down"
+                                android:contentDescription="@null"
+                                app:tint="@color/bridge_text_secondary" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Prog.Card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            style="@style/TextAppearance.Prog.SectionHeader"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/prog_oled_label" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:layout_marginEnd="6dp">
+
+                                <TextView
+                                    style="@style/TextAppearance.Prog.Label"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/prog_oled_addr_label" />
+
+                                <EditText
+                                    android:id="@+id/etOledAddress"
+                                    style="@style/Widget.Prog.EditText"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:text="@string/prog_oled_default_addr" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:layout_marginStart="6dp">
+
+                                <TextView
+                                    style="@style/TextAppearance.Prog.Label"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/prog_oled_size_label" />
+
+                                <Spinner
+                                    android:id="@+id/spinnerOledSize"
+                                    style="@style/Widget.Prog.Spinner"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <Button
+                            android:id="@+id/btnOledInit"
+                            style="@style/Widget.Prog.Button.Filled"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/prog_oled_init"
+                            android:textSize="11.5sp"
+                            app:icon="@drawable/ic_power"
+                            app:iconSize="16dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/btnOledTest"
+                                style="@style/Widget.Prog.Button.Outlined.Stacked"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginEnd="4dp"
+                                android:text="@string/prog_oled_test"
+                                app:icon="@drawable/ic_grid" />
+
+                            <Button
+                                android:id="@+id/btnOledClear"
+                                style="@style/Widget.Prog.Button.Outlined.Stacked"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="4dp"
+                                android:text="@string/prog_oled_clear"
+                                app:icon="@drawable/ic_clear" />
+                        </LinearLayout>
+
+                        <EditText
+                            android:id="@+id/etOledText"
+                            style="@style/Widget.Prog.EditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:hint="@string/prog_oled_text_hint" />
+
+                        <Button
+                            android:id="@+id/btnOledDrawText"
+                            style="@style/Widget.Prog.Button.Filled"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/prog_oled_draw_text"
+                            android:textSize="11.5sp"
+                            app:icon="@drawable/ic_text"
+                            app:iconSize="16dp" />
+
+                        <Button
+                            android:id="@+id/btnOledLoadImage"
+                            style="@style/Widget.Prog.Button.Outlined"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/prog_oled_load_image"
+                            android:textSize="11.5sp"
+                            app:icon="@drawable/ic_image"
+                            app:iconSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/tvOledInfo"
+                            style="@style/TextAppearance.Prog.Hint"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/prog_oled_info" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Custom TTF/OTF font -->
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Prog.Card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            style="@style/TextAppearance.Prog.SectionHeader"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/prog_font_label" />
+
+                        <TextView
+                            android:id="@+id/tvFontStatus"
+                            style="@style/TextAppearance.Prog.Value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/prog_font_none" />
+
+                        <Spinner
+                            android:id="@+id/spinnerFont"
+                            style="@style/Widget.Prog.Spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp" />
+
+                        <TextView
+                            style="@style/TextAppearance.Prog.Hint"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/prog_font_hint" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Clock -->
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Prog.Card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            style="@style/TextAppearance.Prog.SectionHeader"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/prog_clock_label" />
+
+                        <Button
+                            android:id="@+id/btnClockToggle"
+                            style="@style/Widget.Prog.Button.Filled"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/prog_clock_start"
+                            android:textSize="11.5sp"
+                            app:icon="@drawable/ic_play"
+                            app:iconSize="16dp" />
+
+                        <TextView
+                            style="@style/TextAppearance.Prog.Hint"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/prog_clock_hint" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Device stats dashboard -->
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Prog.Card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            style="@style/TextAppearance.Prog.SectionHeader"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/prog_stats_label" />
+
+                        <Button
+                            android:id="@+id/btnStatsToggle"
+                            style="@style/Widget.Prog.Button.Filled"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/prog_stats_start"
+                            android:textSize="11.5sp"
+                            app:icon="@drawable/ic_play"
+                            app:iconSize="16dp" />
+
+                        <TextView
+                            style="@style/TextAppearance.Prog.Hint"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/prog_stats_hint" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Animate a sequence of picked images -->
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Prog.Card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            style="@style/TextAppearance.Prog.SectionHeader"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/prog_anim_label" />
+
+                        <TextView
+                            android:id="@+id/tvAnimStatus"
+                            style="@style/TextAppearance.Prog.Value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/prog_anim_none" />
+
+                        <Button
+                            android:id="@+id/btnAnimChoose"
+                            style="@style/Widget.Prog.Button.Outlined"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/prog_anim_choose"
+                            android:textSize="11sp"
+                            app:icon="@drawable/ic_folder_open"
+                            app:iconSize="15dp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:layout_marginEnd="6dp">
+
+                                <TextView
+                                    style="@style/TextAppearance.Prog.Label"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/prog_anim_delay_label" />
+
+                                <EditText
+                                    android:id="@+id/etAnimDelay"
+                                    style="@style/Widget.Prog.EditText"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:inputType="number"
+                                    android:text="@string/prog_anim_default_delay" />
+                            </LinearLayout>
+
+                            <Button
+                                android:id="@+id/btnAnimToggle"
+                                style="@style/Widget.Prog.Button.Filled"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_gravity="bottom"
+                                android:text="@string/prog_anim_start"
+                                android:textSize="11sp"
+                                app:icon="@drawable/ic_play"
+                                app:iconSize="15dp" />
+                        </LinearLayout>
+
+                        <TextView
+                            style="@style/TextAppearance.Prog.Hint"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/prog_anim_hint" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <!-- ==================== TCP Server panel ==================== -->
+            <LinearLayout
+                android:id="@+id/llTcpServerPanel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <!-- Mode selector -->
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Prog.Card.Compact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <TextView
+                            style="@style/TextAppearance.Prog.Label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
+                            android:text="@string/prog_mode_label" />
+
+                        <LinearLayout
+                            android:id="@+id/spinnerTcpServerMode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:background="@drawable/bg_detect_box"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="9dp">
+
+                            <TextView
+                                android:id="@+id/tvTcpServerModeValue"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:singleLine="true"
+                                android:ellipsize="end"
+                                android:textColor="@color/bridge_text_secondary"
+                                android:textSize="11sp" />
+
+                            <ImageView
+                                android:layout_width="11dp"
+                                android:layout_height="11dp"
+                                android:layout_marginStart="6dp"
+                                android:src="@drawable/ic_chevron_down"
+                                android:contentDescription="@null"
+                                app:tint="@color/bridge_text_secondary" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- I2C-over-TCP (relocated here, unchanged) -->
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Prog.Card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            style="@style/TextAppearance.Prog.SectionHeader"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/prog_i2ctcp_label" />
+
+                        <TextView
+                            android:id="@+id/tvI2cTcpStatus"
+                            style="@style/TextAppearance.Prog.Value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/prog_i2ctcp_not_running" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:layout_marginEnd="6dp">
+
+                                <TextView
+                                    style="@style/TextAppearance.Prog.Label"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="4dp"
+                                    android:text="@string/prog_i2ctcp_port_label" />
+
+                                <EditText
+                                    android:id="@+id/etI2cTcpPort"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/bg_detect_box"
+                                    android:paddingHorizontal="8dp"
+                                    android:paddingVertical="9dp"
+                                    android:textColor="@color/bridge_text_secondary"
+                                    android:textSize="11sp"
+                                    android:inputType="number"
+                                    android:text="@string/prog_i2ctcp_default_port" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    style="@style/TextAppearance.Prog.Label"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="4dp"
+                                    android:text="@string/prog_i2ctcp_action_label" />
+
+                                <LinearLayout
+                                    android:id="@+id/btnI2cTcpToggle"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="center_vertical"
+                                    android:background="@drawable/bg_detect_box_filled"
+                                    android:foreground="?attr/selectableItemBackground"
+                                    android:clickable="true"
+                                    android:focusable="true"
+                                    android:paddingHorizontal="8dp"
+                                    android:paddingVertical="9dp">
+
+                                    <ImageView
+                                        android:layout_width="13dp"
+                                        android:layout_height="13dp"
+                                        android:src="@drawable/ic_power"
+                                        android:contentDescription="@null"
+                                        app:tint="@android:color/white" />
+
+                                    <TextView
+                                        android:id="@+id/tvI2cTcpToggleLabel"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:layout_marginStart="6dp"
+                                        android:text="@string/prog_i2ctcp_start"
+                                        android:textColor="@android:color/white"
+                                        android:textStyle="bold"
+                                        android:textSize="11sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <TextView
+                            style="@style/TextAppearance.Prog.Hint"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/prog_i2ctcp_hint" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- SPI-over-TCP (new) -->
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.Prog.Card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            style="@style/TextAppearance.Prog.SectionHeader"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/prog_spitcp_label" />
+
+                        <TextView
+                            android:id="@+id/tvSpiTcpStatus"
+                            style="@style/TextAppearance.Prog.Value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/prog_i2ctcp_not_running" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:layout_marginEnd="6dp">
+
+                                <TextView
+                                    style="@style/TextAppearance.Prog.Label"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="4dp"
+                                    android:text="@string/prog_i2ctcp_port_label" />
+
+                                <EditText
+                                    android:id="@+id/etSpiTcpPort"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/bg_detect_box"
+                                    android:paddingHorizontal="8dp"
+                                    android:paddingVertical="9dp"
+                                    android:textColor="@color/bridge_text_secondary"
+                                    android:textSize="11sp"
+                                    android:inputType="number"
+                                    android:text="@string/prog_spitcp_default_port" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    style="@style/TextAppearance.Prog.Label"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="4dp"
+                                    android:text="@string/prog_i2ctcp_action_label" />
+
+                                <LinearLayout
+                                    android:id="@+id/btnSpiTcpToggle"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:gravity="center_vertical"
+                                    android:background="@drawable/bg_detect_box_filled"
+                                    android:foreground="?attr/selectableItemBackground"
+                                    android:clickable="true"
+                                    android:focusable="true"
+                                    android:paddingHorizontal="8dp"
+                                    android:paddingVertical="9dp">
+
+                                    <ImageView
+                                        android:layout_width="13dp"
+                                        android:layout_height="13dp"
+                                        android:src="@drawable/ic_power"
+                                        android:contentDescription="@null"
+                                        app:tint="@android:color/white" />
+
+                                    <TextView
+                                        android:id="@+id/tvSpiTcpToggleLabel"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:layout_marginStart="6dp"
+                                        android:text="@string/prog_i2ctcp_start"
+                                        android:textColor="@android:color/white"
+                                        android:textStyle="bold"
+                                        android:textSize="11sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <TextView
+                            style="@style/TextAppearance.Prog.Hint"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/prog_spitcp_hint" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ProgressBar
+                    android:id="@+id/progressProgrammer"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:progressTint="@color/bridge_accent"
+                    android:progressBackgroundTint="@color/bridge_border"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/tvProgPercent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:minWidth="40dp"
+                    android:gravity="end"
+                    android:textColor="@color/bridge_accent"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:visibility="invisible" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- ==================== Log panel - compact, fixed height; the ScrollView above this one
+         is weight=1 and always gets first claim on the screen. ==================== -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bridge_border" />
+
+    <LinearLayout
+        android:id="@+id/llProgLogHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/log_header_bg"
+        android:foreground="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="7dp">
+
+        <TextView
+            style="@style/TextAppearance.Prog.CardTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            android:text="@string/log_label" />
+
+        <ImageView
+            android:id="@+id/ivProgLogChevron"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:src="@drawable/ic_chevron_up"
+            android:contentDescription="@null"
+            android:rotation="180"
+            app:tint="@color/bridge_text_secondary" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollProgLog"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:background="@color/log_bg"
+        android:padding="8dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvProgLog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:textSize="10sp"
+            android:textIsSelectable="true"
+            android:textColor="@color/bridge_text_primary" />
+    </ScrollView>
+
+</LinearLayout>

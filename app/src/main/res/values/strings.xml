@@ -1,0 +1,152 @@
+<!--
+  Copyright (c) 2026 Yassine Moukil ELECTRO-GAMMA. All rights reserved.
+  Author: Yassine Moukil ELECTRO-GAMMA
+  Third-party / ported code attributions: see NOTICE.md
+-->
+<resources>
+    <string name="app_name">AndroProgX</string>
+    <string name="app_subtitle">CH341A EEPROM &amp; Flash Programmer</string>
+
+    <string name="log_label">Log</string>
+
+    <string name="hex_header_address">Address</string>
+    <string name="hex_header_ascii">ASCII</string>
+    <string name="prog_hex_dump_tab">Hex Dump</string>
+    <string name="prog_hex_compare_tab">Hex Compare</string>
+
+    <string name="prog_verify">Verify</string>
+    <string name="prog_dump">Dump</string>
+    <string name="prog_find">Find</string>
+
+    <!-- Hex Compare tab -->
+    <string name="compare_chip_label">Chip data</string>
+    <string name="compare_file_label">File data</string>
+    <string name="compare_crc_label">CRC32:</string>
+    <string name="compare_name_label">Name:</string>
+    <string name="compare_value_placeholder">-</string>
+    <string name="compare_no_chip">Read the chip to compare</string>
+    <string name="compare_no_file">Load a file to compare</string>
+    <string name="compare_ascii_toggle">Visible ASCII areas</string>
+
+    <!-- Find/Replace dialog -->
+    <string name="find_dialog_title">Find/Replace</string>
+    <string name="find_label">Find</string>
+    <string name="replace_label">Replace</string>
+    <string name="find_hint">Search text...</string>
+    <string name="replace_hint">Replacement...</string>
+    <string name="find_backwards">Backwards</string>
+    <string name="find_prompt_on_replace">Prompt on replace</string>
+    <string name="find_btn">Find</string>
+    <string name="replace_btn">Replace</string>
+    <string name="replace_all_btn">Replace All</string>
+    <string name="find_close_btn">Close</string>
+    <string name="find_status_ready">Ready</string>
+    <string name="find_headers_label">Standard headers</string>
+
+    <string name="prog_chip_info_header">Chip Information</string>
+    <string name="prog_parameters_header">Parameters</string>
+    <string name="prog_info_manufacturer">Manufacturer</string>
+    <string name="prog_info_chip">Chip</string>
+    <string name="prog_info_jedec">JEDEC ID</string>
+    <string name="prog_info_i2c_address">I2C Address</string>
+    <string name="prog_info_capacity">Capacity</string>
+    <string name="prog_info_page_size">Page size</string>
+    <string name="prog_info_sector_size">Sector size</string>
+    <string name="prog_info_word_address">Word address</string>
+    <string name="prog_info_vcc">VCC</string>
+    <string name="prog_info_frequency">Frequency</string>
+    <string name="prog_info_i2c_frequency">Frequency</string>
+    <string name="prog_info_placeholder">: -</string>
+    <string name="prog_info_vcc_value">: 3.3 V</string>
+    <string name="prog_info_frequency_value">: 750 kHz</string>
+    <!-- Matches ProgrammerController's Ch341I2c.SPEED_400K, hardcoded for I2C EEPROM/display mode. -->
+    <string name="prog_info_i2c_frequency_value">: 400 kHz</string>
+
+    <string name="prog_detect_chip_label">Detect Chip</string>
+
+    <!-- CH341A: I2C EEPROM / SPI flash / SSD1306 -->
+    <string name="prog_device_label">CH341A Programmer</string>
+    <string name="prog_status_connected">Connected</string>
+    <string name="prog_status_disconnected">Disconnected</string>
+    <string name="prog_mode_label">Mode</string>
+    <string name="prog_connect">Connect</string>
+    <string name="prog_disconnect">Disconnect</string>
+
+    <!-- Background connection service - see ProgrammerService -->
+    <string name="prog_service_channel_name">CH341A connection</string>
+    <string name="prog_service_channel_desc">Keeps the CH341A connection and I2C-over-TCP server running while AndroProgX is in the background</string>
+    <string name="prog_service_title">AndroProgX</string>
+    <string name="prog_service_connected">Connected: %1$s</string>
+    <string name="prog_service_tcp_running">I2C-over-TCP listening on %1$s</string>
+
+    <string name="prog_i2ctcp_label">I2C-over-TCP</string>
+    <string name="prog_i2ctcp_not_running">Not running</string>
+    <string name="prog_i2ctcp_port_label">Port</string>
+    <string name="prog_i2ctcp_action_label">Action</string>
+    <string name="prog_i2ctcp_default_port">3334</string>
+    <string name="prog_i2ctcp_start">Start</string>
+    <string name="prog_i2ctcp_stop">Stop</string>
+    <string name="prog_i2ctcp_hint">Lets another device on the network (or the phone itself, e.g. via the ch341-bridge-termux script) run I2C transactions against whatever\'s wired to the CH341A. Only works in I2C EEPROM or SSD1306 Display mode - connect in one of those first.</string>
+
+    <string name="prog_spitcp_label">SPI-over-TCP</string>
+    <string name="prog_spitcp_default_port">3335</string>
+    <string name="prog_spitcp_hint">Lets another device on the network run SPI transactions against whatever\'s wired to the CH341A - the SPI equivalent of I2C-over-TCP above.</string>
+
+    <string name="prog_eeprom_label">I2C EEPROM (24Cxx)</string>
+    <string name="prog_custom_size_hint">Custom size in bytes</string>
+    <string name="prog_read">Read</string>
+    <string name="prog_write">Write</string>
+    <string name="prog_erase">Erase</string>
+    <string name="prog_random">Write Random</string>
+    <string name="prog_write_text">Write Txt</string>
+    <string name="prog_hex_editor_label">Hex Editor</string>
+    <string name="prog_hex_no_data">No data loaded - tap Read, or Load File</string>
+    <string name="prog_load_file">Load File</string>
+    <string name="prog_save_file">Save File</string>
+
+    <string name="prog_spi_label">SPI Flash (25xx)</string>
+    <string name="prog_spi_read_id">Detect Chip (JEDEC ID)</string>
+    <string name="prog_spi_size_label">Size (KB)</string>
+    <string name="prog_spi_default_size_kb">1024</string>
+    <string name="prog_spi_page_label">Page size (B)</string>
+    <string name="prog_spi_default_page">256</string>
+    <string name="prog_spi_erase">Erase Chip</string>
+    <string name="prog_spi_info">Read loads the hex editor below; Write pushes whatever\'s currently shown there (edited or not) straight to the chip via page program - it no longer erases first, so the target range needs to already be blank (tap Erase first if it isn\'t). Standard JEDEC commands - works with most W25Qxx/GD25Qxx/MX25Lxx/25QHxxx-style chips. Pick a chip above or tap Detect Chip to auto-fill the size (also switches to 4-byte addressing above 16MB).</string>
+
+    <string name="prog_oled_label">SSD1306 OLED Display</string>
+    <string name="prog_oled_addr_label">I2C Address (hex)</string>
+    <string name="prog_oled_default_addr">3C</string>
+    <string name="prog_oled_size_label">Panel Size</string>
+    <string name="prog_oled_init">Init Display</string>
+    <string name="prog_oled_test">Test Pattern</string>
+    <string name="prog_oled_clear">Clear</string>
+    <string name="prog_oled_text_hint">Text to display</string>
+    <string name="prog_oled_draw_text">Draw Text</string>
+    <string name="prog_oled_load_image">Load Image</string>
+    <string name="prog_oled_info">5x7 font supports upper/lowercase, digits, and punctuation - or load a custom font below to use that instead. Load Image scales any picture to the panel and dithers it to 1-bit. Tap Init Display once after connecting, before Test Pattern/Clear/Draw Text/Load Image.</string>
+
+    <string name="prog_font_label">Custom Font (TTF/OTF)</string>
+    <string name="prog_font_none">Using built-in pixel font</string>
+    <string name="prog_font_builtin">Built-in Pixel Font</string>
+    <string name="prog_font_choose_phone">Choose from Phone\u2026</string>
+    <string name="prog_font_hint">Draw Text and the Clock\'s time/date use this font when one is picked here; Stats always uses the built-in pixel font. Alagard and PixelOperator are bundled with the app - or choose any .ttf/.otf from your phone.</string>
+
+    <string name="prog_clock_label">Clock</string>
+    <string name="prog_clock_start">Start Clock</string>
+    <string name="prog_clock_stop">Stop Clock</string>
+    <string name="prog_clock_hint">Analog clock face + digital time/date, redrawn once a second, using the built-in pixel font for crisp text at any panel size (or the custom font above, if one is loaded).</string>
+
+    <string name="prog_stats_label">Device Stats</string>
+    <string name="prog_stats_start">Start Stats</string>
+    <string name="prog_stats_stop">Stop Stats</string>
+    <string name="prog_stats_hint">Battery level, battery temperature, RAM, storage, and this phone\'s IP address, redrawn once a second.</string>
+
+    <string name="prog_anim_label">Animate Images</string>
+    <string name="prog_anim_none">No frames selected</string>
+    <string name="prog_anim_choose">Choose Frames\u2026</string>
+    <string name="prog_anim_delay_label">Frame delay (ms)</string>
+    <string name="prog_anim_default_delay">150</string>
+    <string name="prog_anim_start">Start Animation</string>
+    <string name="prog_anim_stop">Stop Animation</string>
+    <string name="prog_anim_hint">Pick 2 or more images (any format, any order) - they\'ll loop on the panel at the delay above, each scaled to fit like Load Image does.</string>
+</resources>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2026 Yassine Moukil ELECTRO-GAMMA. All rights reserved.
+  Author: Yassine Moukil ELECTRO-GAMMA
+  Third-party / ported code attributions: see NOTICE.md
+-->
+<!-- One data row of the hex viewer. Column widths/weights here MUST match HexHeaderView's (used
+     as the static "Address / 00 01 .. 0F / ASCII" caption row above the RecyclerView) - see the
+     weight constants documented on HexEditorAdapter - so the two line up exactly. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingVertical="1.5dp">
+
+    <TextView
+        android:id="@+id/tvHexOffset"
+        android:layout_width="54dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:textStyle="bold"
+        android:textSize="9sp"
+        android:textColor="@color/hex_offset"
+        android:gravity="start" />
+
+    <LinearLayout
+        android:id="@+id/llHexBytes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:orientation="horizontal" />
+
+    <LinearLayout
+        android:id="@+id/llHexAscii"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="6dp"
+        android:orientation="horizontal" />
+
+</LinearLayout>

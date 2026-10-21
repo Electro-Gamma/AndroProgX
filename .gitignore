@@ -1,0 +1,26 @@
+# Copyright (c) 2026 Yassine Moukil ELECTRO-GAMMA. All rights reserved.
+# Author: Yassine Moukil ELECTRO-GAMMA
+
+# Build output / IDE
+build/
+.gradle/
+.idea/
+*.iml
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Secrets - never commit these
+*.keystore
+*.jks
+.github_sync_config.json
+.env
+
+# Release binaries are published as GitHub Releases, not committed
+*.apk
+*.aab
+
+# Misc
+.DS_Store
+__pycache__/

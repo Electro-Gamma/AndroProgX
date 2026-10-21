@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2026 Yassine Moukil ELECTRO-GAMMA. All rights reserved.
+  Author: Yassine Moukil ELECTRO-GAMMA
+  Third-party / ported code attributions: see NOTICE.md
+-->
+<!-- Find/Replace dialog for the hex editor - shown via MainActivity's showFindReplaceDialog(),
+     wired to whichever HexEditorAdapter (EEPROM or SPI) the person tapped Find from. Unlike the
+     app's other dialogs (see dialog_title_icon.xml, used with styledDialog()'s builder-supplied
+     positive/negative buttons), this one needs four independent actions (Find / Replace / Replace
+     All / Close) plus an options block and a quick-insert grid, so the whole thing - including its
+     own title bar and close button - is one fully custom view passed to setView(), with no builder
+     title/buttons at all. -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="16dp">
+
+        <!-- ==================== Title bar ==================== -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingBottom="14dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_search_outline"
+                android:contentDescription="@null"
+                app:tint="@color/dialog_badge_bg" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:text="@string/find_dialog_title"
+                android:textColor="@color/dialog_title"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/btnFindDialogClose"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:padding="4dp"
+                android:src="@drawable/ic_clear"
+                android:contentDescription="@string/find_close_btn"
+                android:clickable="true"
+                android:focusable="true"
+                app:tint="@color/dialog_hint" />
+        </LinearLayout>
+
+        <!-- ==================== Find field ==================== -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/find_label"
+                android:textColor="@color/dialog_body"
+                android:textStyle="bold"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvFindStatus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:gravity="end"
+                android:text="@string/find_status_ready"
+                android:textColor="@color/dialog_hint"
+                android:textSize="11sp"
+                android:fontFamily="monospace" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <Spinner
+                android:id="@+id/spinnerFindEncoding"
+                style="@style/Widget.Prog.Spinner"
+                android:layout_width="92dp"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/etFindQuery"
+                style="@style/Widget.Prog.EditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/bg_dialog_input"
+                android:textColor="@color/dialog_title"
+                android:textColorHint="@color/dialog_hint"
+                android:hint="@string/find_hint"
+                android:inputType="text"
+                android:maxLines="1"
+                android:text="Hello" />
+        </LinearLayout>
+
+        <!-- ==================== Replace field ==================== -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/replace_label"
+            android:textColor="@color/dialog_body"
+            android:textStyle="bold"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <Spinner
+                android:id="@+id/spinnerReplaceEncoding"
+                style="@style/Widget.Prog.Spinner"
+                android:layout_width="92dp"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/etReplaceQuery"
+                style="@style/Widget.Prog.EditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/bg_dialog_input"
+                android:textColor="@color/dialog_title"
+                android:textColorHint="@color/dialog_hint"
+                android:hint="@string/replace_hint"
+                android:inputType="text"
+                android:maxLines="1"
+                android:text="Hi" />
+        </LinearLayout>
+
+        <!-- ==================== Options ==================== -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/cbFindBackwards"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/find_backwards"
+                android:textColor="@color/dialog_body"
+                android:textSize="11.5sp" />
+
+            <CheckBox
+                android:id="@+id/cbFindPrompt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/find_prompt_on_replace"
+                android:textColor="@color/dialog_body"
+                android:textSize="11.5sp" />
+        </LinearLayout>
+
+        <!-- ==================== Actions: Find / Replace / Replace All / Close ==================== -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnFindGo"
+                style="@style/Widget.Prog.Button.Filled.Stacked"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="3dp"
+                android:backgroundTint="@color/status_ok"
+                android:text="@string/find_btn"
+                app:icon="@drawable/ic_search_outline" />
+
+            <Button
+                android:id="@+id/btnReplaceGo"
+                style="@style/Widget.Prog.Button.Filled.Stacked"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="3dp"
+                android:backgroundTint="@color/status_ok"
+                android:text="@string/replace_btn"
+                app:icon="@drawable/ic_edit" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnReplaceAllGo"
+                style="@style/Widget.Prog.Button.Filled.Stacked"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="3dp"
+                android:backgroundTint="@color/status_ok"
+                android:text="@string/replace_all_btn"
+                app:icon="@drawable/ic_verify" />
+
+            <Button
+                android:id="@+id/btnFindDialogCancel"
+                style="@style/Widget.Prog.Button.Outlined.Stacked"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="3dp"
+                android:text="@string/find_close_btn"
+                app:icon="@drawable/ic_clear" />
+        </LinearLayout>
+
+        <!-- ==================== Standard headers quick-insert ==================== -->
+        <TextView
+            style="@style/TextAppearance.Prog.Label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="@string/find_headers_label" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnHeaderZip"
+                style="@style/Widget.Prog.Button.Outlined"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="3dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingHorizontal="0dp"
+                android:paddingVertical="6dp"
+                android:text="ZIP"
+                android:textSize="10sp" />
+
+            <Button
+                android:id="@+id/btnHeaderPng"
+                style="@style/Widget.Prog.Button.Outlined"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="3dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingHorizontal="0dp"
+                android:paddingVertical="6dp"
+                android:text="PNG"
+                android:textSize="10sp" />
+
+            <Button
+                android:id="@+id/btnHeaderJpg"
+                style="@style/Widget.Prog.Button.Outlined"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="3dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingHorizontal="0dp"
+                android:paddingVertical="6dp"
+                android:text="JPG"
+                android:textSize="10sp" />
+
+            <Button
+                android:id="@+id/btnHeaderGif"
+                style="@style/Widget.Prog.Button.Outlined"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="3dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingHorizontal="0dp"
+                android:paddingVertical="6dp"
+                android:text="GIF"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnHeaderTar"
+                style="@style/Widget.Prog.Button.Outlined"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="3dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingHorizontal="0dp"
+                android:paddingVertical="6dp"
+                android:text="TAR"
+                android:textSize="10sp" />
+
+            <Button
+                android:id="@+id/btnHeaderUefi"
+                style="@style/Widget.Prog.Button.Outlined"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="3dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingHorizontal="0dp"
+                android:paddingVertical="6dp"
+                android:text="UEFI"
+                android:textSize="10sp" />
+
+            <Button
+                android:id="@+id/btnHeaderBios"
+                style="@style/Widget.Prog.Button.Outlined"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="3dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingHorizontal="0dp"
+                android:paddingVertical="6dp"
+                android:text="BIOS"
+                android:textSize="10sp" />
+
+            <Button
+                android:id="@+id/btnHeaderGpt"
+                style="@style/Widget.Prog.Button.Outlined"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="3dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingHorizontal="0dp"
+                android:paddingVertical="6dp"
+                android:text="GPT"
+                android:textSize="10sp" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

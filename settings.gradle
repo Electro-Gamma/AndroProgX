@@ -1,0 +1,24 @@
+/*
+ * Copyright (c) 2026 Yassine Moukil ELECTRO-GAMMA. All rights reserved.
+ * Author: Yassine Moukil ELECTRO-GAMMA
+ * Third-party / ported code attributions: see NOTICE.md
+ */
+
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        // Required for com.github.mik3y:usb-serial-for-android
+        maven { url 'https://jitpack.io' }
+    }
+}
+rootProject.name = "AndroProgX"
+include ':app'

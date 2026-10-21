@@ -1,0 +1,10 @@
+<!--
+  Copyright (c) 2026 Yassine Moukil ELECTRO-GAMMA. All rights reserved.
+  Author: Yassine Moukil ELECTRO-GAMMA
+  Third-party / ported code attributions: see NOTICE.md
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp" android:height="24dp" android:viewportWidth="24" android:viewportHeight="24">
+    <path android:fillColor="#FFFFFF"
+        android:pathData="M6,4h12a2,2 0,0 1,2 2v12a2,2 0,0 1,-2 2H6a2,2 0,0 1,-2 -2V6a2,2 0,0 1,2 -2m0,2v12h12V6H6m-4,2h2v2H2V8m0,4h2v2H2v-2m0,4h2v2H2v-2m18,-8h2v2h-2V8m0,4h2v2h-2v-2m0,4h2v2h-2v-2M9,9h6v6H9V9z"/>
+</vector>

@@ -1,0 +1,86 @@
+<!--
+  Copyright (c) 2026 Yassine Moukil ELECTRO-GAMMA. All rights reserved.
+  Author: Yassine Moukil ELECTRO-GAMMA
+  Third-party / ported code attributions: see NOTICE.md
+-->
+<resources>
+    <!-- ====================================================================
+         "CH341A Programmer" design system - DARK / night mode.
+         Same token names as values/colors.xml - see that file for the light
+         counterpart of each one. Picked up automatically by DayNight when the
+         system is in dark mode; no code changes needed.
+         ==================================================================== -->
+
+    <!-- App bar / status bar -->
+    <color name="bridge_primary">#0F172A</color>
+    <color name="bridge_primary_dark">#0B1120</color>
+
+    <!-- Brand accent - primary buttons, section headers, links, highlighted values -->
+    <color name="bridge_accent">#2563EB</color>
+    <!-- See values/colors.xml for why this exists. -->
+    <color name="text_selection_highlight">#4D2563EB</color>
+
+    <!-- Surfaces -->
+    <color name="bridge_bg">#0B1120</color>
+    <color name="bridge_card">#1E293B</color>
+    <color name="bridge_input_bg">#0F172A</color>
+    <color name="bridge_icon_box_bg">#0F172A</color>
+    <color name="bridge_border">#334155</color>
+
+    <!-- Text -->
+    <color name="bridge_text_primary">#F1F5F9</color>
+    <color name="bridge_text_secondary">#94A3B8</color>
+    <color name="bridge_text_tertiary">#64748B</color>
+
+    <!-- Header (top app bar) specific tones -->
+    <color name="bridge_header_title">#FFFFFF</color>
+    <color name="bridge_header_subtitle">#38BDF8</color>
+    <color name="bridge_header_icon">#CBD5E1</color>
+    <color name="bridge_header_icon_accent">#38BDF8</color>
+    <color name="bridge_icon_neutral">#38BDF8</color>
+
+    <!-- Status -->
+    <color name="status_ok">#34D399</color>
+    <color name="status_error">#F43F5E</color>
+    <color name="status_warn">#FBBF24</color>
+    <color name="status_idle">#64748B</color>
+
+    <!-- "Hex matrix" viewer - adapts with the rest of the UI (unlike the old fixed
+         green-on-black terminal look) so it always matches the CH341A Programmer
+         reference design in both light and dark. -->
+    <color name="hex_bg">#0B1120</color>
+    <color name="hex_header_bg">#0F172A</color>
+    <color name="hex_offset">#38BDF8</color>
+    <color name="hex_byte">#94A3B8</color>
+    <color name="hex_byte_highlight">#34D399</color>
+    <color name="hex_ascii">#64748B</color>
+    <color name="hex_ascii_highlight">#6EE7B7</color>
+
+    <!-- See values/colors.xml for the light counterpart of each of these. hex_diff_highlight_bg/
+         text are byte-exact copies of the reference HTML's .diff-highlight rule (rgba(244,63,94,.35)
+         / #fecdd3) - this is dark mode, the same appearance the HTML was designed against. -->
+    <color name="hex_find_highlight_bg">#5938BDF8</color>
+    <color name="hex_find_highlight_text">#38BDF8</color>
+    <color name="hex_replace_highlight_bg">#5934D399</color>
+    <color name="hex_replace_highlight_text">#34D399</color>
+    <color name="hex_diff_highlight_bg">#59F43F5E</color>
+    <color name="hex_diff_highlight_text">#FECDD3</color>
+    <!-- ASCII column's diff color only - text only, no background (matches the reference HTML's
+         "text-amber-300" class, byte-exact: Tailwind amber-300 is #FCD34D). -->
+    <color name="hex_diff_ascii_text">#FCD34D</color>
+
+    <!-- Log panel -->
+    <color name="log_bg">#0B1120</color>
+    <color name="log_header_bg">#0F172A</color>
+    <color name="log_timestamp">#64748B</color>
+
+    <!-- Confirm/edit dialogs - see values/colors.xml for the light counterpart of each. -->
+    <color name="dialog_surface">#1E293B</color>
+    <color name="dialog_title">#F1F5F9</color>
+    <color name="dialog_body">#94A3B8</color>
+    <color name="dialog_hint">#64748B</color>
+    <color name="dialog_badge_bg">#2563EB</color>
+    <color name="dialog_badge_glyph">#FFFFFF</color>
+    <color name="dialog_input_bg">#0F172A</color>
+    <color name="dialog_input_border">#334155</color>
+</resources>
