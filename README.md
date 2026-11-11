@@ -139,6 +139,22 @@ Remove the clip, reconnect the device and power it. A recovered modem/router usu
 - Dumps can contain **Wi-Fi passwords, keys and personal data** &mdash; do not upload them publicly.
 - The phone's USB port supplies power: use a good OTG cable and keep the phone charged.
 
+## Flash Chip Safety and Backup Recommendations
+
+Before reading, erasing, or programming a flash chip, follow these precautions:
+
+- Identify the chip model and verify its datasheet.
+- Check the required operating voltage before connecting the chip.
+- Confirm the chip orientation and pin alignment.
+- Disconnect power before connecting or removing the chip.
+- Read and save the original flash contents before making modifications.
+- Keep an untouched backup of the original firmware.
+- Verify the backup file before proceeding with an erase or write operation.
+- Never interrupt a programming operation while it is in progress.
+- Confirm that the target chip is supported by the hardware and software configuration.
+
+These precautions help prevent hardware damage and accidental firmware loss.
+
 ## I2C EEPROM (24Cxx) workflow
 
 1. **Mode &rarr; I2C EEPROM (24Cxx)**, select the chip (or **Detect** to probe the real capacity) and **Connect**.
