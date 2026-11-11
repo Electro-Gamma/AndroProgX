@@ -214,6 +214,40 @@ AndroProgX/
 
 Files are opened and saved through Android's file picker, so no storage permission is needed.
 
+## Development and Testing
+
+AndroProgX is developed using Kotlin and Android SDK.
+
+### Development Requirements
+
+- Android Studio
+- JDK 17
+- Gradle 8.7
+- Android SDK
+- Android device with USB OTG support
+
+### Testing
+
+Before submitting changes:
+
+1. Build the application.
+2. Check the application installation.
+3. Verify USB device detection.
+4. Test the I2C EEPROM workflow.
+5. Test the SPI Flash workflow.
+6. Check the TCP bridge functionality.
+
+### Contributing
+
+Contributions are welcome.
+
+When submitting a pull request:
+
+- Describe the changes.
+- Explain the reason for the modification.
+- Include testing information.
+- Avoid unrelated modifications.
+
 ## Project status &amp; disclaimer
 
 The protocol logic follows known-working reference implementations (flashrom and IMSProg) and the code has been through real Gradle build/install cycles. It was written without a physical CH341A attached, so treat chip-level behaviour as carefully reviewed rather than hardware-verified, and **keep a backup before every write**. The software is provided as is, without warranty; you are responsible for any device you program.
